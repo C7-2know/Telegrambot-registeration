@@ -1,6 +1,7 @@
 import os
 import asyncio
 from contextlib import asynccontextmanager
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 from pymongo import MongoClient
 from telegram import Update, KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove
@@ -103,7 +104,20 @@ async def lifespan(app: FastAPI):
 # FastAPI app instance with lifespan
 app = FastAPI(lifespan=lifespan)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # in production, replace with your frontend domain
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Health check endpoint
 @app.get("/")
 def read_root():
     return {"status": "Bot is running"}
+
+# Endpoint to get registered users
+@app.get("/users")
+def get_registered_users():
+    users = list(collection.find({}, {"_id": 0, "name": 1, "phone": 1}))
+    return {"users": users}
