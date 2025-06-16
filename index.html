@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Registered Users</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    table { width: 60%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+    th { background-color: #f2f2f2; }
+  </style>
+</head>
+<body>
+
+  <h2>📋 Registered Telegram Users</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Full Name</th>
+        <th>Phone Number</th>
+      </tr>
+    </thead>
+    <tbody id="user-table-body">
+      <!-- Populated via JS -->
+    </tbody>
+  </table>
+
+  <script>
+    async function fetchUsers() {
+      var BASE_URL= import.meta.env.BASE_URL || "http://localhost:8000"; 
+      try {
+        const response = await fetch(`${BASE_URL}/users`);
+        const data = await response.json();
+        const tbody = document.getElementById("user-table-body");
+
+        data.users.forEach(user => {
+          const row = document.createElement("tr");
+          row.innerHTML = `<td>${user.name}</td><td>${user.phone}</td>`;
+          tbody.appendChild(row);
+        });
+      } catch (err) {
+        console.error("Failed to load users:", err);
+      }
+    }
+    fetchUsers();
+  </script>
+</body>
+</html>
