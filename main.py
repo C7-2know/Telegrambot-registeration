@@ -72,11 +72,12 @@ async def message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         if not is_user_registered(user_id):
             collection.insert_one(data)
-            await message.reply_text("✅ ስለተመዘገቡ እናመሰግናለን፤ እንደ እግዚአብሔር ፈቃድ የጉዞ ቀን እሁድ ሰኔ 16 2017፤ ጠዋት 02:00 ሰዓት፤  መነሻ ቦታ 5 ኪሎ ዶርም ግቢ በር ነው። ሰላመ እግዚአብሔር አይለየን🙏")
+            await message.reply_text("✅ ስለተመዘገቡ እናመሰግናለን፤ እንደ እግዚአብሔር ፈቃድ የጉዞ ቀን እሁድ ሰኔ 15 2017፤ ሰዓት: ጠዋት 01:30 /n መነሻ ቦታ: 5 ኪሎ ዶርም ግቢ በር ነው። /n ሰላመ እግዚአብሔር አይለየን🙏")
 
         user_states.pop(user_id, None)
         temp_user_data.pop(user_id, None)
 
+        await message.reply_text("You have registered.", reply_markup=ReplyKeyboardRemove())
         await message.reply_text("You can now close the chat.", reply_markup=ReplyKeyboardRemove())
 
     else:
